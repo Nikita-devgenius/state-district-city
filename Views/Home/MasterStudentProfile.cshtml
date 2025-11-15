@@ -1,0 +1,218 @@
+﻿
+@model Biohacker_Adminpanel.Models.Addstudent
+@{
+    ViewData["Title"] = "Add Student";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@{
+    if (TempData["msg"] != null)
+    {
+        <script>
+            alert("@TempData["msg"]");
+        </script>
+    }
+}
+
+<div class="container-fluid bg-white px-3 py-3 rounded-2 shadow-sm">
+    <h2 class="text-center mb-4 text-primary">Add Student Detail</h2>
+
+    <form asp-action="insertstudata" asp-controller="Home" method="post" enctype="multipart/form-data">
+        <div class="row">
+            <input type="hidden" asp-for="mspId" />
+            <div class="mb-3 col-lg-6 col-md-6 col-sm-12">
+                <label class="form-label">Institute Name*</label>
+                <select asp-for="mspinstituteId" asp-items="ViewBag.Allinstitute" class="form-control" required>
+                    <option value="">-- Select Institute --</option>
+                    <span asp-validation-for="mspinstituteId" class="text-primary"></span>
+                </select>
+            </div>
+
+            <div class="mb-3 col-lg-6 col-md-6 col-sm-12">
+                <label class="form-label">Course Name*</label>
+                <select asp-for="mspCourseId" asp-items="@ViewBag.AllCourse" class="form-control" required>
+                    <option value="">-- Select Course --</option>
+                    <span asp-validation-for="mspCourseId" class="text-primary"></span>
+                </select>
+            </div>
+
+            <div class="mb-3col-lg-6 col-md-6 col-sm-12">
+                <label class="form-label">Session Name*</label>
+                <select asp-for="mspSessionId" asp-items="@ViewBag.Allsession" class="form-control" required>
+                    <option value="">-- Select Session --</option>
+                    <span asp-validation-for="mspSessionId" class="text-primary"></span>
+                </select>
+            </div>
+
+           
+            <!-- Registration (Personal details) -->
+
+            <div class="mb-3 col-lg-6 col-md-6 col-sm-12">
+                <label class="form-label">Student Name*</label>
+                <input asp-for="msrName" class="form-control" placeholder="Student Name" required />
+                <span asp-validation-for="msrName" class="text-primary"></span>
+            </div>
+
+            <div class="mb-3 col-lg-6 col-md-6 col-sm-12">
+                <label class="form-label">Father Name*</label>
+                <input asp-for="msrfatherName" class="form-control" placeholder="Father Name" required />
+                <span asp-validation-for="msrfatherName" class="text-primary"></span>
+            </div>
+
+            <div class="mb-3 col-lg-6 col-md-6 col-sm-12">
+                <label class="form-label">Mother Name*</label>
+                <input asp-for="msrMotherName" class="form-control" placeholder="Mother Name" required />
+                <span asp-validation-for="msrMotherName" class="text-primary"></span>
+            </div>
+
+            <div class="mb-3 col-lg-6 col-md-6 col-sm-12">
+                <label class="form-label">Date of Birth*</label>
+                <input asp-for="msrDOB" type="date" class="form-control" required />
+                <span asp-validation-for="msrDOB" class="text-primary"></span>
+            </div>
+
+            <div class="mb-3 col-lg-6 col-md-6 col-sm-12">
+                <label class="form-label">Email*</label>
+                <input asp-for="msrEmail" type="email" class="form-control" placeholder="Email" required />
+                <span asp-validation-for="msrEmail" class="text-primary"></span>
+            </div>
+
+            <div class="mb-3 col-lg-6 col-md-6 col-sm-12">
+                <label class="form-label">Mobile No.*</label>
+                <input asp-for="msrMobileNo" type="number" class="form-control" placeholder="Mobile" required />
+                <span asp-validation-for="msrMobileNo" class="text-primary"></span>
+            </div>
+
+            <div class="mb-3 col-lg-6 col-md-6 col-sm-12">
+                <label class="form-label">Course Image</label>
+                <input asp-for="StudentImage" type="file" class="form-control" >
+                @if (Model != null && !string.IsNullOrEmpty(Model.msrPhoto))
+                {
+                    <img src="@Model.msrPhoto" width="120" class="mt-2 rounded" />
+                }
+                <span asp-validation-for="StudentImage" class="text-primary"></span>
+            </div>
+
+            <div class="mb-3 col-lg-12">
+                <label class="form-label">Address*</label>
+                <input asp-for="msrAddress" class="form-control" placeholder="Address" />
+                <span asp-validation-for="msrAddress" class="text-primary"></span>
+            </div>
+
+            <div class="mb-3 col-lg-6 col-md-6 col-sm-12">
+                <label class="form-label">State</label>
+                <select asp-for="msrStateId" asp-items="@ViewBag.Allstate" id="stateDropdown" class="form-control" required>
+                    <option value="">-- Select State --</option>
+                </select>
+                <span asp-validation-for="msrStateId" class="text-primary"></span>
+            </div>
+
+            <div class="mb-3 col-lg-6 col-md-6 col-sm-12">
+                <label class="form-label">District</label>
+                <select asp-for="msrDistrictId" asp-items="@ViewBag.AllDistrict" id="districtDropdown" class="form-control" required>
+                    <option value="">-- Select District --</option>
+                </select>
+                <span asp-validation-for="msrDistrictId" class="text-primary"></span>
+            </div>
+
+            <div class="mb-3 col-lg-6 col-md-6 col-sm-12">
+                <label class="form-label">city</label>
+                <select asp-for="msrCityId" asp-items="@ViewBag.Allcity" id="cityDropdown" class="form-control" required>
+                    <option value="">-- Select city --</option>
+                </select>
+                <span asp-validation-for="msrCityId" class="text-primary"></span>
+            </div>
+
+            <div class="mb-3 col-lg-6 col-md-6 col-sm-12">
+                <label class="form-label">Category</label>
+                <select asp-for="msrCategoryId" asp-items="@ViewBag.CategoryList" class="form-control" required>
+                    <option value="">-- Select Category --</option>
+                </select>
+                <span asp-validation-for="msrCategoryId" class="text-primary"></span>
+            </div>
+
+            <div class="mb-3 col-lg-6 col-md-6 col-sm-12">
+                <label class="form-label">Gender</label>
+                <select asp-for="msrGender" asp-items="@ViewBag.GenderList" class="form-control" required>
+                    <option value="">-- Select Gender --</option>
+                </select>             
+                <span asp-validation-for="msrGender" class="text-primary"></span>
+            </div>
+
+            <div class="mb-3 col-lg-6 col-md-6 col-sm-12">
+                <label class="form-label">Aadhar Card Number*</label>
+                <input asp-for="msrAadharNo" type="number" class="form-control" placeholder="Aadhar Number" />
+            </div>           
+
+            <div class="mb-3 col-lg-6 col-md-6 col-sm-12">
+                <label class="form-label"> Document Image </label>
+                <input asp-for="DocumentImage" type="file" class="form-control" >
+                
+                @if (Model != null && !string.IsNullOrEmpty(Model.msrDocumentImage))
+                {
+                    <img src="@Model.msrDocumentImage" width="120" class="mt-2 rounded" />
+                }
+                <span asp-validation-for="DocumentImage" class="text-primary"></span>
+            </div>
+
+            <button type="submit" class="btn btn-primary mt-3 px-4  col-lg-3 col-md-6 col-sm-12" style="height: 42px; margin: auto;">
+                @(Model.mspId != 0 ? "Update" : "Submit")
+            </button>
+        </div>
+
+       
+    </form>
+</div>
+
+@* @section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}  *@
+
+@section Scripts {
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function () {
+
+            // When State changes
+            $('#stateDropdown').change(function () {
+                var stateId = $(this).val();
+                $('#districtDropdown').empty().append('<option value="">-- Select District --</option>');
+                $('#cityDropdown').empty().append('<option value="">-- Select City --</option>');
+
+                if (stateId) {
+                    $.ajax({
+                        url: '/Home/GetDistrictsByState',
+                        type: 'GET',
+                        data: { stateId: stateId },
+                        success: function (districts) {
+                            $.each(districts, function (i, district) {
+                                $('#districtDropdown').append('<option value="' + district.mDistrictId + '">' + district.mDistrictName + '</option>');
+                            });
+                        }
+                    });
+                }
+            });
+
+            // When District changes
+            $('#districtDropdown').change(function () {
+                var districtId = $(this).val();
+                $('#cityDropdown').empty().append('<option value="">-- Select City --</option>');
+
+                if (districtId) {
+                    $.ajax({
+                        url: '/Home/GetCitiesByDistrict',
+                        type: 'GET',
+                        data: { districtId: districtId },
+                        success: function (cities) {
+                            $.each(cities, function (i, city) {
+                                $('#cityDropdown').append('<option value="' + city.mCityId + '">' + city.mCityName + '</option>');
+                            });
+                        }
+                    });
+                }
+            });
+        });
+    </script>
+}

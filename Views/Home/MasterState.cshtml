@@ -1,0 +1,131 @@
+﻿@model MasterState
+                   
+@{
+    ViewData["Title"] = "MasterState";
+}
+
+@{
+    if (TempData["msg"] != null)
+    {
+        <script type="text/javascript">
+            alert("@TempData["msg"]");
+        </script>
+    }
+}
+
+<div class="container-fluid  bg-white  px-3 py-2 rounded-2">
+    <h1 class="text-center">Master State</h1>
+    <form asp-controller="Home" method="post" asp-action="addstate">
+        <input type="hidden" asp-for="mStateId" />
+        <div class="row">
+
+            <div class="mb-3 col-lg-6 col-md-12">
+                <label asp-for="mStateName" class="form-label">State Name</label>
+                <input asp-for="mStateName" type="text" id="simpleinput" class="form-control" placeholder="Enter state name" required />
+                <span asp-validation-for="mStateName" class="text-primary"></span>
+            </div>
+
+            <div class="mb-3 col-lg-6 col-md-12">
+                <label asp-for="mStateOrderNo" class="form-label">Order No.</label>
+                <input asp-for="mStateOrderNo" type="text" id="simpleinput" class="form-control" placeholder="Enter order number" required />
+                <span asp-validation-for="mStateOrderNo" class="text-primary"></span>
+            </div>
+
+        </div>
+
+        <button type="submit" class="submit-btn bg-primary mt-2">
+            @(Model.mStateId != 0 ? "Update" : "Submit")
+        </button>
+    </form>
+
+
+    <div class="col-md-12 col-sm-12 col-lg-12 col-xl-12">
+        <div class="card-body">
+            <h1 class="pt-5 text-center">List</h1>
+            <br />
+            <div class="card-block table-border-style">
+                <div class="table-responsive">
+                    <table id="demo-foo-addrow" class="table table-bordered table-hover toggle-circle" data-page-size="50" style="overflow-x: scroll;">
+                        <thead>
+                            <tr class="text-black">
+                                <th data-sort-initial="true" data-toggle="true">Srno</th>
+                                <th>State Name</th>
+                                <th>Order No.</th>
+                                <th>Date time</th>
+                                @* <th data-sort-ignore="true" class="min-width">Action</th> *@
+                            </tr>
+                        </thead>
+                        <div class="form-inline pt-2  mb-2">
+                            <div class="row">
+                                <div class="col-lg-6 col-md-6 col-sm-12 full-w">
+                                    <div class="form-group">
+                                        <a href="javascript:void(0)" class="btn btn-success bg-success btn-sm text-center" onclick="exportexcel1()">Export To Excel</a>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6 col-md-6 col-sm-12 text-right m-b-20">
+                                    <div class="form-group">
+                                        <input id="demo-input-search2" type="text" placeholder="Search" class="form-control search-btn"
+                                               autocomplete="off">
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                        <tbody>
+                            @{
+                                int Srno = 0;
+                            }
+
+                            @foreach (MasterState item in ViewBag.Allstate)
+                            {
+                                Srno++;
+                                <tr>
+                                    <td>@Srno</td>
+                                    <td>@item.mStateName</td>
+                                    <td>@item.mStateOrderNo</td>
+                                    <td>@item.mStateInsDate</td>
+                                    <td style="text-align: center">
+                                        <a asp-action="MasterState" asp-route-Id="@item.mStateId" class="btn bg-primary btn-xs">Edit</a>
+                                        <a asp-action="delstate" asp-route-Id="@item.mStateId" class="btn bg-danger btn-xs">Delete</a>
+                                    </td>
+                                </tr>
+                            }
+
+                        </tbody>
+                        @* <tfoot>
+                            <tr>
+                                <td colspan="8">
+                                    <div class="text-right">
+                                        <ul class="pagination" style="display: inline-block; list-style: none;">
+                                        </ul>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tfoot> *@
+                    </table>
+
+                    <script>
+
+                        function exportexcel1() {
+                            $("#demo-foo-addrow").table2excel({
+                                name: "Table2Excel",
+                                filename: "FranchiseDetail",
+                                fileext: ".xls"
+                            });
+                        }
+                    </script>
+
+                    <script src="https://cdn.rawgit.com/rainabba/jquery-table2excel/1.1.0/dist/jquery.table2excel.min.js">
+                    </script>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
+
